@@ -140,26 +140,16 @@ function TestPage({ userName, onComplete, onBack }) {
       <div className="max-w-3xl mx-auto relative z-10">
         {/* 头部信息 */}
         <div className="mb-8 animate-fade-in">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/30 transform rotate-3 glow-effect">
-                <svg className="w-7 h-7 text-white floating-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold gradient-text">MBTI 人格测试</h1>
-                <p className="text-slate-600">你好，<span className="font-semibold gradient-text">{userName}</span></p>
-              </div>
-            </div>
-            <button
-              onClick={onBack}
-              className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-white transition-all duration-300 hover:scale-105 hover:shadow-md"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/30 transform rotate-3 glow-effect">
+              <svg className="w-7 h-7 text-white floating-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
               </svg>
-            </button>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold gradient-text">MBTI 人格测试</h1>
+              <p className="text-slate-600">你好，<span className="font-semibold gradient-text">{userName}</span></p>
+            </div>
           </div>
           
           {/* 进度条 */}

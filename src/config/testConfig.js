@@ -4,7 +4,7 @@
 export const TEST_CONFIG = {
   // 当前使用的测试集
   // 可选值: 'demo' (3题快速体验版) 或 'full' (20题完整版)
-  currentTestSet: 'demo',
+  currentTestSet: 'full',
   
   // 是否显示测试集选择器（未来功能）
   showTestSetSelector: false,
