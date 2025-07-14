@@ -2,23 +2,63 @@ import React, { useState, useEffect } from 'react';
 import Question from './Question';
 import ProgressBar from './ProgressBar';
 import { questions } from '../data/questions';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function TestPage({ userName, onComplete, onBack }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(new Array(questions.length).fill(null));
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [direction, setDirection] = useState(0); // -1: 向左, 1: 向右
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const canGoNext = answers[currentQuestionIndex] !== null;
   const canGoPrev = currentQuestionIndex > 0;
 
+  // 处理选择答案
   const handleAnswerSelect = (answer) => {
+    // 保存当前选择的答案
+    setSelectedAnswer(answer);
+    
+    // 显示确认动画
+    setShowConfirmation(true);
+    
+    // 更新答案数组
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
+    
+    // 自动进入下一题或完成测试
+    if (isLastQuestion) {
+      // 最后一题，延迟后自动完成测试
+      setTimeout(() => {
+        onComplete(newAnswers);
+      }, 300);
+    } else {
+      // 不是最后一题，自动跳转到下一题
+      setTimeout(() => {
+        // 设置过渡方向
+        setDirection(1);
+        
+        // 开始过渡动画
+        setIsTransitioning(true);
+        
+        // 重置确认状态
+        setShowConfirmation(false);
+        
+        // 延迟切换到下一题
+        setTimeout(() => {
+          setCurrentQuestionIndex(prev => prev + 1);
+          setIsTransitioning(false);
+          setSelectedAnswer(null);
+        }, 250);
+      }, 300);
+    }
   };
 
+  // 处理下一题
   const handleNext = () => {
     if (!canGoNext) return;
 
@@ -26,25 +66,46 @@ function TestPage({ userName, onComplete, onBack }) {
       // 完成测试
       onComplete(answers);
     } else {
-      // 下一题
+      // 设置过渡方向
+      setDirection(1);
+      
+      // 开始过渡动画
       setIsTransitioning(true);
+      
+      // 重置确认状态
+      setShowConfirmation(false);
+      
+      // 延迟切换到下一题，加快速度
       setTimeout(() => {
         setCurrentQuestionIndex(prev => prev + 1);
         setIsTransitioning(false);
-      }, 300);
+        setSelectedAnswer(null);
+      }, 250);
     }
   };
 
+  // 处理上一题
   const handlePrev = () => {
     if (!canGoPrev) return;
     
+    // 设置过渡方向
+    setDirection(-1);
+    
+    // 开始过渡动画
     setIsTransitioning(true);
+    
+    // 重置确认状态
+    setShowConfirmation(false);
+    
+    // 延迟切换到上一题，加快速度
     setTimeout(() => {
       setCurrentQuestionIndex(prev => prev - 1);
       setIsTransitioning(false);
-    }, 300);
+      setSelectedAnswer(answers[currentQuestionIndex - 1]);
+    }, 250);
   };
 
+  // 处理键盘操作
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && canGoNext) {
       handleNext();
@@ -55,11 +116,13 @@ function TestPage({ userName, onComplete, onBack }) {
     }
   };
 
+  // 添加键盘事件监听
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [currentQuestionIndex, answers, canGoNext, canGoPrev]);
 
+  // 计算进度
   const answeredCount = answers.filter(answer => answer !== null).length;
   const progressPercentage = (answeredCount / questions.length) * 100;
 
@@ -85,7 +148,7 @@ function TestPage({ userName, onComplete, onBack }) {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-800">MBTI 人格测试</h1>
+                <h1 className="text-2xl font-bold gradient-text">MBTI 人格测试</h1>
                 <p className="text-slate-600">你好，<span className="font-semibold gradient-text">{userName}</span></p>
               </div>
             </div>
@@ -116,95 +179,121 @@ function TestPage({ userName, onComplete, onBack }) {
 
         {/* 问题区域 */}
         <div className="card animate-fade-in overflow-hidden">
-          <div className={`transition-all duration-500 ${isTransitioning ? 'opacity-0 transform translate-y-8' : 'opacity-100 transform translate-y-0'}`}>
-            <Question
-              question={currentQuestion}
-              selectedAnswer={answers[currentQuestionIndex]}
-              onAnswerSelect={handleAnswerSelect}
-              questionNumber={currentQuestionIndex + 1}
-              totalQuestions={questions.length}
-            />
-          </div>
-        </div>
-
-        {/* 导航按钮 */}
-        <div className="mt-8 flex justify-between items-center animate-fade-in" style={{animationDelay: '0.2s'}}>
-          <button
-            onClick={handlePrev}
-            disabled={!canGoPrev}
-            className={`btn-secondary group py-3 px-5 ${!canGoPrev ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}`}
-          >
-            <span className="flex items-center justify-center">
-              <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-              </svg>
-              上一题
-            </span>
-          </button>
-
-          <div className="flex items-center space-x-2 text-slate-500">
-            <span className="text-sm font-medium">{currentQuestionIndex + 1}</span>
-            <div className="w-8 h-0.5 bg-slate-300 rounded-full"></div>
-            <span className="text-sm">{questions.length}</span>
-          </div>
-
-          <button
-            onClick={handleNext}
-            disabled={!canGoNext}
-            className={`btn-primary group py-3 px-5 ${!canGoNext ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}`}
-          >
-            <span className="relative z-10 flex items-center justify-center">
-              {isLastQuestion ? (
-                <>
-                  完成测试
-                  <svg className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          <div className="relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentQuestionIndex}
+                initial={{ 
+                  opacity: 0, 
+                  x: direction === 1 ? 100 : direction === -1 ? -100 : 0,
+                }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0,
+                  transition: { duration: 0.25, ease: "easeOut" } 
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  x: direction === 1 ? -100 : direction === -1 ? 100 : 0,
+                  transition: { duration: 0.25, ease: "easeIn" } 
+                }}
+                className="w-full"
+              >
+                <Question 
+                  question={currentQuestion}
+                  selectedAnswer={answers[currentQuestionIndex]}
+                  onAnswerSelect={handleAnswerSelect}
+                  questionNumber={null} /* 删除问题编号显示 */
+                  totalQuestions={questions.length}
+                />
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* 选择确认动画 */}
+            {showConfirmation && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-xl shadow-green-500/30">
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                   </svg>
-                </>
-              ) : (
-                <>
-                  下一题
-                  <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </>
-              )}
-            </span>
-          </button>
-        </div>
-
-        {/* 快捷键提示 */}
-        <div className="mt-8 glass-effect rounded-xl p-4 animate-fade-in" style={{animationDelay: '0.3s'}}>
-          <div className="flex items-center justify-center space-x-6 text-xs text-slate-500">
-            <div className="flex items-center space-x-2 hover:text-indigo-500 transition-colors duration-300">
-              <kbd className="px-2 py-1 bg-white/80 rounded shadow-sm text-slate-700 font-mono border border-slate-200">←</kbd>
-              <span>上一题</span>
-            </div>
-            <div className="flex items-center space-x-2 hover:text-indigo-500 transition-colors duration-300">
-              <kbd className="px-2 py-1 bg-white/80 rounded shadow-sm text-slate-700 font-mono border border-slate-200">→</kbd>
-              <span>下一题</span>
-            </div>
-            <div className="flex items-center space-x-2 hover:text-indigo-500 transition-colors duration-300">
-              <kbd className="px-2 py-1 bg-white/80 rounded shadow-sm text-slate-700 font-mono border border-slate-200">Enter</kbd>
-              <span>确认</span>
-            </div>
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
 
-        {/* 测试进度概览 */}
-        <div className="mt-6 grid grid-cols-10 gap-2 animate-fade-in" style={{animationDelay: '0.4s'}}>
-          {questions.map((_, index) => (
-            <div
-              key={index}
-              className={`h-3 rounded-lg transition-all duration-500 ${
-                answers[index] !== null
-                  ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-indigo-500/25'
-                  : index === currentQuestionIndex
-                  ? 'bg-gradient-to-r from-indigo-300/70 via-purple-300/70 to-pink-300/70 scale-110 pulse-soft'
-                  : 'bg-slate-200/70'
-              }`}
-            />
-          ))}
+        {/* 导航按钮 - 调整为横向排列 */}
+        <div className="flex items-center justify-between mt-8 animate-fade-in" style={{animationDelay: '0.2s'}}>
+          <motion.div whileHover={{ scale: canGoPrev ? 1.03 : 1 }} whileTap={{ scale: canGoPrev ? 0.97 : 1 }}>
+            <button
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              className={`btn-secondary group py-2 px-4 ${!canGoPrev ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}`}
+            >
+              <span className="flex items-center justify-center">
+                <svg className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span>上一题</span>
+              </span>
+            </button>
+          </motion.div>
+
+          <div className="flex items-center space-x-2 text-sm">
+            <span className="font-medium text-slate-500">{currentQuestionIndex + 1} / {questions.length}</span>
+          </div>
+
+          <motion.div whileHover={{ scale: canGoNext ? 1.03 : 1 }} whileTap={{ scale: canGoNext ? 0.97 : 1 }}>
+            <button
+              onClick={handleNext}
+              disabled={!canGoNext}
+              className={`btn-primary group py-2 px-4 ${!canGoNext ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}`}
+            >
+              <span className="relative z-10 flex items-center justify-center">
+                {isLastQuestion ? (
+                  <>
+                    <span>完成测试</span>
+                    <svg className="w-4 h-4 ml-1 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    <span>下一题</span>
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </>
+                )}
+              </span>
+            </button>
+          </motion.div>
+        </div>
+
+        {/* 删除快捷键提示 */}
+
+        {/* 测试进度概览 - 保留进度条但删除底部说明 */}
+        <div className="mt-6 animate-fade-in" style={{animationDelay: '0.4s'}}>
+          <div className="grid grid-cols-10 gap-2">
+            {questions.map((_, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.1 }}
+                className={`h-2 rounded-lg transition-all duration-300 ${
+                  answers[index] !== null
+                    ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-indigo-500/25'
+                    : index === currentQuestionIndex
+                    ? 'bg-gradient-to-r from-indigo-300/70 via-purple-300/70 to-pink-300/70 scale-110 pulse-soft'
+                    : 'bg-slate-200/70'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

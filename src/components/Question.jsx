@@ -1,80 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Question = ({ question, selectedAnswer, onAnswerSelect, questionNumber, totalQuestions }) => {
+  const [animateSelection, setAnimateSelection] = useState(false);
+  
+  const handleOptionSelect = (value) => {
+    // 如果已经选择了这个选项，不做任何操作
+    if (selectedAnswer === value) return;
+    
+    // 设置动画标志
+    setAnimateSelection(true);
+    
+    // 选择新选项
+    onAnswerSelect(value);
+    
+    // 动画结束后重置标志
+    setTimeout(() => {
+      setAnimateSelection(false);
+    }, 300);
+  };
+  
   return (
-    <div className="card animate-slide-up">
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">{questionNumber}</span>
-            </div>
-            <span className="text-sm font-semibold text-slate-700">
-              问题 {questionNumber}
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-            <span className="text-sm text-slate-500 font-medium">
-              {questionNumber} / {totalQuestions}
-            </span>
-          </div>
-        </div>
-        
-        <h3 className="text-xl font-bold text-slate-800 leading-relaxed mb-2">
+    <div className="card glass-card animate-fade-in shadow-xl relative overflow-hidden">
+      {/* 装饰元素 */}
+      <div className="absolute -top-12 -right-12 w-24 h-24 bg-gradient-to-br from-indigo-400/20 to-purple-600/20 rounded-full blur-xl"></div>
+      <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-gradient-to-tr from-pink-400/20 to-indigo-600/20 rounded-full blur-xl"></div>
+      
+      {/* 问题头部 */}
+      <div className="mb-8 relative z-10">
+        <h3 className="text-xl font-bold text-slate-800 leading-relaxed mb-3 animate-slide-up" style={{animationDelay: '0.1s'}}>
           {question.text}
         </h3>
-        <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+        <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-sm"></div>
       </div>
 
-      <div className="space-y-4">
-        {question.options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => onAnswerSelect(option.value)}
-            className={`question-option group ${
-              selectedAnswer === option.value ? 'selected' : ''
-            }`}
-          >
-            <div className="flex items-start space-x-4">
-              <div className="relative flex-shrink-0 mt-1">
-                <div className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${
-                  selectedAnswer === option.value
-                    ? 'border-indigo-500 bg-indigo-500 scale-110'
-                    : 'border-slate-300 group-hover:border-indigo-400'
-                }`}>
-                  {selectedAnswer === option.value && (
-                    <div className="w-full h-full rounded-full bg-white scale-50 animate-scale-in"></div>
-                  )}
-                </div>
-                {selectedAnswer === option.value && (
-                  <div className="absolute -inset-1 bg-indigo-500/20 rounded-full animate-pulse"></div>
-                )}
-              </div>
-              <div className="flex-1 text-left">
-                <span className="text-slate-700 font-medium leading-relaxed group-hover:text-slate-900 transition-colors duration-300">
+      {/* 选项列表 - 按钮风格设计 */}
+      <div className="space-y-4 relative z-10">
+        {question.options.map((option, index) => {
+          const isSelected = selectedAnswer === option.value;
+          
+          return (
+            <button
+              key={index}
+              onClick={() => handleOptionSelect(option.value)}
+              className={`w-full transition-all duration-300 relative overflow-hidden group ${
+                isSelected
+                  ? 'btn-primary transform scale-[1.02] shadow-xl'
+                  : 'btn-secondary hover:shadow-lg hover:scale-[1.01]'
+              }`}
+              style={{
+                padding: '16px 24px',
+                fontSize: '16px',
+                fontWeight: isSelected ? '600' : '500',
+                textAlign: 'left',
+                justifyContent: 'flex-start'
+              }}
+            >
+              {/* 选中状态的装饰效果 */}
+              {isSelected && (
+                <>
+                  <div className="absolute -top-6 -right-6 w-12 h-12 bg-white/20 rounded-full blur-md"></div>
+                  <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white/20 rounded-full blur-md"></div>
+                </>
+              )}
+              
+              <div className="flex items-center relative z-10 w-full">
+                {/* 选项内容 */}
+                <span className="flex-grow text-left">
                   {option.text}
                 </span>
+                
+                {/* 选中指示器 */}
+                {isSelected && (
+                  <div className="flex-shrink-0 ml-3">
+                    <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                )}
+                
+                {/* 未选中时的箭头指示器 */}
+                {!isSelected && (
+                  <div className="flex-shrink-0 ml-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <svg className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                )}
               </div>
-              <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-8 pt-6 border-t border-slate-200/60">
-        <div className="flex items-center justify-center space-x-2 text-slate-500">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="text-sm">
-            选择最符合您真实情况的选项
-          </p>
-        </div>
+              
+              {/* 选中动画效果 */}
+              {isSelected && animateSelection && (
+                <div className="absolute inset-0 bg-white/20 rounded-2xl animate-ripple"></div>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

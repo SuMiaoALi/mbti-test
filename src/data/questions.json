@@ -1,0 +1,226 @@
+{
+  "testSets": {
+    "full": {
+      "name": "完整版MBTI测试",
+      "description": "20道题目的完整MBTI人格测试",
+      "questionCount": 20,
+      "questions": [
+        {
+          "id": 1,
+          "text": "在聚会中，你更倾向于：",
+          "dimension": "EI",
+          "options": [
+            { "text": "主动与很多人交谈，成为焦点", "value": "E" },
+            { "text": "与少数几个熟悉的人深入交流", "value": "I" }
+          ]
+        },
+        {
+          "id": 2,
+          "text": "当你需要充电时，你会：",
+          "dimension": "EI",
+          "options": [
+            { "text": "寻找朋友聊天或参加活动", "value": "E" },
+            { "text": "独自待着，享受安静的时光", "value": "I" }
+          ]
+        },
+        {
+          "id": 3,
+          "text": "在工作中，你更喜欢：",
+          "dimension": "EI",
+          "options": [
+            { "text": "团队合作，集思广益", "value": "E" },
+            { "text": "独立思考，专注工作", "value": "I" }
+          ]
+        },
+        {
+          "id": 4,
+          "text": "面对新环境时，你通常：",
+          "dimension": "EI",
+          "options": [
+            { "text": "很快适应并主动结识新朋友", "value": "E" },
+            { "text": "需要时间观察和适应", "value": "I" }
+          ]
+        },
+        {
+          "id": 5,
+          "text": "你更倾向于通过什么方式思考问题：",
+          "dimension": "EI",
+          "options": [
+            { "text": "大声说出来，与他人讨论", "value": "E" },
+            { "text": "在心里默默思考", "value": "I" }
+          ]
+        },
+        {
+          "id": 6,
+          "text": "你更相信：",
+          "dimension": "SN",
+          "options": [
+            { "text": "具体的事实和经验", "value": "S" },
+            { "text": "直觉和可能性", "value": "N" }
+          ]
+        },
+        {
+          "id": 7,
+          "text": "在学习新知识时，你更喜欢：",
+          "dimension": "SN",
+          "options": [
+            { "text": "从具体例子开始，逐步理解", "value": "S" },
+            { "text": "先了解整体概念和理论", "value": "N" }
+          ]
+        },
+        {
+          "id": 8,
+          "text": "你更注重：",
+          "dimension": "SN",
+          "options": [
+            { "text": "现实和实用性", "value": "S" },
+            { "text": "创新和可能性", "value": "N" }
+          ]
+        },
+        {
+          "id": 9,
+          "text": "在描述事物时，你更倾向于：",
+          "dimension": "SN",
+          "options": [
+            { "text": "详细具体的描述", "value": "S" },
+            { "text": "概括性的描述", "value": "N" }
+          ]
+        },
+        {
+          "id": 10,
+          "text": "你更喜欢：",
+          "dimension": "SN",
+          "options": [
+            { "text": "按部就班，循序渐进", "value": "S" },
+            { "text": "跳跃思维，灵感突现", "value": "N" }
+          ]
+        },
+        {
+          "id": 11,
+          "text": "做决定时，你更依赖：",
+          "dimension": "TF",
+          "options": [
+            { "text": "逻辑分析和客观事实", "value": "T" },
+            { "text": "个人价值观和情感", "value": "F" }
+          ]
+        },
+        {
+          "id": 12,
+          "text": "在冲突中，你更倾向于：",
+          "dimension": "TF",
+          "options": [
+            { "text": "坚持原则，据理力争", "value": "T" },
+            { "text": "考虑他人感受，寻求和谐", "value": "F" }
+          ]
+        },
+        {
+          "id": 13,
+          "text": "你更重视：",
+          "dimension": "TF",
+          "options": [
+            { "text": "公正和效率", "value": "T" },
+            { "text": "和谐和人情", "value": "F" }
+          ]
+        },
+        {
+          "id": 14,
+          "text": "在批评他人时，你会：",
+          "dimension": "TF",
+          "options": [
+            { "text": "直接指出问题所在", "value": "T" },
+            { "text": "委婉表达，照顾对方感受", "value": "F" }
+          ]
+        },
+        {
+          "id": 15,
+          "text": "你更看重：",
+          "dimension": "TF",
+          "options": [
+            { "text": "能力和成就", "value": "T" },
+            { "text": "品格和人品", "value": "F" }
+          ]
+        },
+        {
+          "id": 16,
+          "text": "你更喜欢：",
+          "dimension": "JP",
+          "options": [
+            { "text": "制定详细计划并严格执行", "value": "J" },
+            { "text": "保持灵活，随机应变", "value": "P" }
+          ]
+        },
+        {
+          "id": 17,
+          "text": "面对截止日期，你通常：",
+          "dimension": "JP",
+          "options": [
+            { "text": "提前完成，避免最后匆忙", "value": "J" },
+            { "text": "在压力下工作效率更高", "value": "P" }
+          ]
+        },
+        {
+          "id": 18,
+          "text": "你的工作风格更像：",
+          "dimension": "JP",
+          "options": [
+            { "text": "有条不紊，按计划进行", "value": "J" },
+            { "text": "灵活应变，适应变化", "value": "P" }
+          ]
+        },
+        {
+          "id": 19,
+          "text": "做决定时，你更倾向于：",
+          "dimension": "JP",
+          "options": [
+            { "text": "快速决定，然后执行", "value": "J" },
+            { "text": "保持开放，随时调整", "value": "P" }
+          ]
+        },
+        {
+          "id": 20,
+          "text": "你更喜欢的生活方式是：",
+          "dimension": "JP",
+          "options": [
+            { "text": "有序规律，可预测", "value": "J" },
+            { "text": "自由随性，充满变化", "value": "P" }
+          ]
+        }
+      ]
+    },
+    "demo": {
+      "name": "快速体验版",
+      "description": "3道题目的快速MBTI体验测试",
+      "questionCount": 3,
+      "questions": [
+        {
+          "id": 1,
+          "text": "在聚会中，你更倾向于：",
+          "dimension": "EI",
+          "options": [
+            { "text": "主动与很多人交谈，成为焦点", "value": "E" },
+            { "text": "与少数几个熟悉的人深入交流", "value": "I" }
+          ]
+        },
+        {
+          "id": 2,
+          "text": "做决定时，你更依赖：",
+          "dimension": "TF",
+          "options": [
+            { "text": "逻辑分析和客观事实", "value": "T" },
+            { "text": "个人价值观和情感", "value": "F" }
+          ]
+        },
+        {
+          "id": 3,
+          "text": "你更喜欢：",
+          "dimension": "JP",
+          "options": [
+            { "text": "制定详细计划并严格执行", "value": "J" },
+            { "text": "保持灵活，随机应变", "value": "P" }
+          ]
+        }
+      ]
+    }
+  },
+  "defaultTestSet": "demo"
+}

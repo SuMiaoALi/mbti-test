@@ -5,6 +5,7 @@ import TestPage from './components/TestPage';
 import ResultPage from './components/ResultPage';
 import { calculateMBTI, validateAnswers } from './utils/calculator';
 import { saveTestResult } from './utils/storage';
+import { questions } from './data/questions';
 
 // 应用状态枚举
 const APP_STATES = {
@@ -33,7 +34,7 @@ function App() {
   // 完成测试
   const handleTestComplete = (answers) => {
     // 验证答案完整性
-    if (!validateAnswers(answers)) {
+    if (!validateAnswers(answers, questions.length)) {
       alert('请完成所有题目后再提交');
       return;
     }

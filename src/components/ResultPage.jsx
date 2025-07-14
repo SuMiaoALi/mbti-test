@@ -73,9 +73,8 @@ const ResultPage = ({ result, userName, onRestart, onShare }) => {
                 <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span className="text-sm font-semibold text-slate-700">测试完成者</span>
               </div>
-              <p className="font-bold text-slate-800 text-lg">{userName}</p>
+              <p className="font-bold text-slate-800 text-lg">测试者：{userName}</p>
             </div>
           </div>
         </div>
