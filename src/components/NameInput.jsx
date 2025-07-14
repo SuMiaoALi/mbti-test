@@ -72,20 +72,20 @@ function NameInput({ onSubmit, onBack }) {
             <div className="absolute -bottom-1 -left-1 w-5 h-5 bg-cyan-400 rounded-full animate-float shadow-lg shadow-cyan-400/30" style={{animationDelay: '1.5s'}}></div>
           </div>
           
-          <h2 className="text-3xl font-bold mb-2 animate-bounce-in">
+          <h2 className="text-3xl font-bold mb-2">
             <span className="gradient-text">个性化体验</span>
           </h2>
-          <p className="text-slate-600 text-sm font-medium animate-slide-up" style={{animationDelay: '0.2s'}}>
+          <p className="text-slate-600 text-sm font-medium">
             <span className="highlight-container">输入您的姓名</span>，开启专属测试之旅
           </p>
         </div>
 
         {/* 表单 */}
-        <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in" style={{animationDelay: '0.3s'}}>
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <div className="relative group">
               {/* 输入框外发光效果 */}
-              <div className={`absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl opacity-${isFocused || name ? '100' : '0'} transition-opacity duration-300 blur-sm -m-0.5`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl transition-opacity duration-300 blur-sm -m-0.5 ${isFocused || name ? 'opacity-100' : 'opacity-0'}`}></div>
               
               {/* 输入框 */}
               <input
@@ -96,14 +96,15 @@ function NameInput({ onSubmit, onBack }) {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 placeholder="请输入您的姓名"
-                className={`w-full px-6 py-4 border-2 rounded-xl bg-white/80 backdrop-blur-sm relative z-10 text-lg font-medium placeholder-slate-400 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 ${error ? 'border-red-300' : 'border-slate-200 hover:border-indigo-300 group-hover:shadow-lg'}`}
+                className={`w-full px-6 py-4 border-2 rounded-xl bg-white/90 backdrop-blur-sm relative z-10 text-lg font-medium placeholder-slate-400 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 shadow-lg ${error ? 'border-red-300 focus:border-red-400' : 'border-slate-200 hover:border-indigo-300 focus:border-indigo-500 group-hover:shadow-xl'}`}
+                style={{ fontSize: '16px' }}
                 maxLength={20}
               />
               
               {/* 验证成功图标 */}
               {name && !error && (
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-green-400 to-green-500 rounded-full flex items-center justify-center shadow-md shadow-green-500/20 animate-scale-in">
+                  <div className="w-6 h-6 bg-gradient-to-r from-green-400 to-green-500 rounded-full flex items-center justify-center shadow-md shadow-green-500/20">
                     <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                     </svg>
@@ -114,7 +115,7 @@ function NameInput({ onSubmit, onBack }) {
             
             {/* 错误提示 */}
             {error && (
-              <div className="flex items-center space-x-2 text-red-600 animate-scale-in">
+              <div className="flex items-center space-x-2 text-red-600">
                 <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"></path>
                 </svg>
@@ -124,7 +125,7 @@ function NameInput({ onSubmit, onBack }) {
           </div>
 
           {/* 按钮组 */}
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 mt-8" style={{marginTop: '10px'}}>
             <button
               type="button"
               onClick={onBack}
@@ -153,7 +154,7 @@ function NameInput({ onSubmit, onBack }) {
         </form>
 
         {/* 隐私提示 */}
-        <div className="mt-8 p-6 glass-effect rounded-2xl border border-indigo-200/30 animate-fade-in" style={{animationDelay: '0.5s'}}>
+        <div className="mt-8 p-6 glass-effect rounded-2xl border border-indigo-200/30">
           <div className="flex items-start space-x-4">
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-indigo-500/20">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

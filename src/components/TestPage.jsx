@@ -277,8 +277,8 @@ function TestPage({ userName, onComplete, onBack }) {
 
         {/* 删除快捷键提示 */}
 
-        {/* 测试进度概览 - 保留进度条但删除底部说明 */}
-        <div className="mt-6 animate-fade-in" style={{animationDelay: '0.4s'}}>
+        {/* 测试进度概览 */}
+        <div className="mt-6">
           <div className="grid grid-cols-10 gap-2">
             {questions.map((_, index) => (
               <motion.div
@@ -293,6 +293,49 @@ function TestPage({ userName, onComplete, onBack }) {
                 }`}
               />
             ))}
+          </div>
+        </div>
+
+        {/* 测试提示区域 */}
+        <div className="mt-8 space-y-4" style={{marginTop: '30px'}}>
+          {/* 主要提示 */}
+          <div className="glass-effect rounded-2xl p-6 border border-indigo-200/30">
+            <div className="flex items-start space-x-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-indigo-500/20">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-800 mb-2">💡 答题小贴士</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  请根据您的<span className="font-medium text-indigo-600">第一直觉</span>和<span className="font-medium text-indigo-600">真实感受</span>来选择答案，不要过度思考。最真实的反应往往能反映您最本质的人格特征。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 次要提示 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-slate-200/50">
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-slate-200/50">
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
